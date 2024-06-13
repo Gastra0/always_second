@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ВС "Завжди Другі"</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="favicon.jpg" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js/dist/css/lightgallery.min.css">
+    <style>
+        body {
+            color: #000;
+            font-family: eUkraine;
+            font-weight: 500;
+            margin: 0;
+            padding: 50px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .specimen-characters-char {
+            display: inline-block;
+        }
+
+        #donatorsChart, #receiversChart {
+            width: 100%;
+            height: 400px; // Fixed height or use 'auto' for responsive height
+        display: block;
+        }
+
+        #fp-nav ul li a span{
+            background: #001a7a;
+        }
+
+        #fp-nav ul li .fp-tooltip {
+            font-family: eUkraine;
+        }
+
+        .fp-sr-only {
+            font-family: eUkraine;
+        }
+
+        .heading-group {
+            padding: 20px;
+            width: 80%; /* Limits width to 80% of its parent container */
+            margin: auto; /* Centers the div */
+            font-family: eUkraine;
+            position: relative; /* Needed for positioning adjustments */
+        }
+        h1 {
+            margin: 10px 0;
+            color: #ffffff;
+            text-align: center;
+            font-size: 76px;
+            text-shadow: 2px 2px black;
+        }
+        .heading-group h1:nth-child(1) {
+            margin-top: -170px; /* Adds space below the first two h1 elements */
+        }
+        .heading-group h1:nth-child(2){
+            margin-top: 0px; /* Adds space below the first two h1 elements */
+        }
+        .heading-group h1:nth-child(3) {
+            font-weight: lighter;
+            font-size: 48px; /* Smaller font size for the third h1 */
+            margin-top: 100px; /* Moves the third h1 higher up */
+        }
+
+        /* Background and sections styling remains the same */
+        body {
+            background-image: url('background.webp'); /* Ensure the path to your image is correct */
+            background-size: cover;
+            background-attachment: fixed;
+        }
+        h2 {
+            text-align: center;
+            font-size: 48px;
+            text-shadow: 2px 2px black;
+        }
+        .section {
+            overflow: visible;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: relative;  /* Ensures the section does not overflow */
+            overflow: hidden;    /* Prevents any content from going outside the bounds of the section */
+        }
+        .section:not(:first-of-type) {
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+        #section1, #section2, #section3, #section4 { padding: 20px; font-family: Arial, sans-serif; }
+        .stats, .grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .stat-item, .grid-item button {
+            font-family: eUkraine;
+            flex-basis: 20%;
+            margin: 10px;
+            padding: 20px;
+            color: rgb(0, 26, 122);
+            background-color: #ffe9b6;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgb(0, 26, 122);
+            text-align: center;
+        }
+        .grid-item button {
+            background-color: #ffc107;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+        }
+        .stat-item {
+            width: 200px; /* Fixed width for each item */
+            margin: 10px;
+            padding: 20px;
+            text-align: center; /* Center align the text */
+            border-radius: 10px;
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Stack children vertically */
+            align-items: center; /* Align children (text and image) centrally */
+        }
+        .gallery-container {
+            overflow-x: auto;
+            width: 80%;
+            max-width: 1200px;
+        }
+
+        .gallery {
+            display: flex;
+            flex-wrap: nowrap;
+        }
+
+        .gallery img {
+            max-width: 100%;
+            height: auto;
+            margin: 5px;
+            flex: 1 0 21%; /* This ensures around 4 images per row */
+        }
+        .gallery.mosaic {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .gallery.mosaic img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px; /* Optional: add border radius to images */
+        }
+
+        @media (max-width: 1200px) {
+            .gallery img {
+                flex: 1 0 46%; /* Adjust the width of images for smaller screens */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .gallery img {
+                flex: 1 0 96%; /* Adjust the width of images for mobile screens */
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="loadingOverlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background-color:white; z-index:9999; display:flex; justify-content:center; align-items:center; font-size:24px;">
+    Loading data, please wait...
+</div>
+<div id="fullpage">
+    <div class="section" id="section1">
+        <div class="heading-group">
+        <h1 >Волонтерська спілка</h1>
+        <h1>"Завжди другі"</h1>
+            <h1 id="totalFunds" style="font-weight: lighter">Зібрано коштів: 0 грн.</h1>
+        </div>
+
+    </div>
+    <div class="section" id="section2">
+        <h2>Передано військовим</h2>
+        <div id="donatorsContainer" class="stats">
+            <!-- Dynamic stat items will be appended here -->
+        </div>
+    </div>
+    <div class="section" id="section3">
+        <h2>Передано донаторами (грн)</h2>
+        <canvas id="donatorsChart"></canvas>
+    </div>
+    <div class="section" id="section4">
+        <h2>Фотозвіти</h2>
+            <div id="lightgallery" class="gallery mosaic"></div>
+    </div>
+    <div class="section" id="section5">
+        <h2>Отримано військовими (грн)</h2>
+        <canvas id="receiversChart"></canvas>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/lg-thumbnail.js/dist/lg-thumbnail.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lg-autoplay.js/dist/lg-autoplay.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lg-zoom.js/dist/lg-zoom.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lg-fullscreen.js/dist/lg-fullscreen.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lg-share.js/dist/lg-share.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lightgallery.js/dist/js/lightgallery.min.js"></script>
+<script src="script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/3.1.2/fullpage.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
+<script src="https://d3js.org/d3.v6.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.2.0/chartjs-plugin-datalabels.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-rounded-bars@1.0.0"></script>
+<script>
+    // script.js
+    document.addEventListener('DOMContentLoaded', function() {
+        const gallery = document.getElementById('lightgallery');
+        const imagesPerLoad = 4; // Number of images to load at a time
+        let imagesLoaded = 0;
+
+        // Fetch image filenames from the JSON file
+        fetch('/gallery/images.json')
+            .then(response => response.json())
+            .then(imageFilenames => {
+                function loadImages() {
+                    const imagesToLoad = imageFilenames.slice(imagesLoaded, imagesLoaded + imagesPerLoad);
+                    imagesToLoad.forEach(filename => {
+                        const img = document.createElement('img');
+                        img.src = `gallery/${filename}`;
+                        img.alt = filename;
+                        img.loading = 'lazy';
+                        gallery.appendChild(img);
+                    });
+                    imagesLoaded += imagesPerLoad;
+                }
+
+                loadImages(); // Initial load
+
+                gallery.addEventListener('scroll', () => {
+                    if (gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 5 && imagesLoaded < imageFilenames.length) {
+                        loadImages();
+                    }
+                });
+            })
+            .catch(error => console.error('Error loading image filenames:', error));
+    });
+
+    const csvUrlGrid = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdJn_gZe3zyt7S6LKUYQj6lOgZ6RLPTNB7gLs_k-j_GPN9o3SWvDrqTN4lA-AFsvdNkzq5Rhze1Px9/pub?output=csv&gid=1569713555";
+    const csvUrlDonators = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdJn_gZe3zyt7S6LKUYQj6lOgZ6RLPTNB7gLs_k-j_GPN9o3SWvDrqTN4lA-AFsvdNkzq5Rhze1Px9/pub?output=csv&gid=1952789179";
+    const csvUrlReceivers = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdJn_gZe3zyt7S6LKUYQj6lOgZ6RLPTNB7gLs_k-j_GPN9o3SWvDrqTN4lA-AFsvdNkzq5Rhze1Px9/pub?output=csv&gid=1880133361";
+    let receiversDrawn = false;
+    let donatorsDrawn = false;
+
+    // Загрузка данных из CSV и инициализация диаграммы
+    Promise.all([
+        d3.csv(csvUrlGrid),
+        d3.csv(csvUrlDonators),
+        d3.csv(csvUrlReceivers)
+    ]).then(function(results) {
+        const csvGridData = results[0];
+        const csvDonatorsData = results[1];
+        const csvUrlReceivers = results[2];
+
+        initializeStats(csvGridData);
+        updateTotalFunds(csvDonatorsData); // Call function to update the total sum
+
+
+        // Hide the loading overlay
+        document.getElementById('loadingOverlay').style.display = 'none';
+
+        // Initialize FullPage.js only after the data is ready
+        new fullpage('#fullpage', {
+            autoScrolling: true,
+            navigation: true,
+            showActiveTooltip: true,
+            navigationPosition: 'right',
+            navigationTooltips: ['Інтро', 'Передано', 'Грошодавці', "Звіти", "Отримувачі"]
+        });
+
+        initializeDonatorsChart(csvDonatorsData);
+        initializeReceiversChart(csvUrlReceivers);
+    }).catch(error => {
+        console.error('Error loading the CSV files:', error);
+        document.getElementById('loadingOverlay').innerHTML = 'Failed to load fullpage!';
+    });
+
+
+
+    function initializeStats(data) {
+        const container = document.getElementById('donatorsContainer');
+        container.innerHTML = ''; // Clear existing content
+        data.forEach(function(item) {
+            if (item["SUM of Сумма"] && item["Категория"]) {
+                const div = document.createElement('div');
+                div.className = 'stat-item';
+                // Assume there is an 'Image' field in your data that contains the image URLs
+                const img = document.createElement('img');
+                img.src = "/icons/" + item["PNG"];
+                img.style.width = '100px';      // Optional: Set image size
+                img.style.height = '100px';     // Optional: Set image size
+                img.style.borderRadius = '50%'; // Optional: Make the image round
+
+                // Append the image to the div
+                div.appendChild(img);
+
+                // Format the sum using toLocaleString for readability
+                const formattedSum = parseInt(item["SUM of Сумма"]).toLocaleString('fr-FR', {
+                    maximumFractionDigits: 0  // Ensure no decimal places
+                });
+
+                // Create a text element for the category
+                const categoryText = document.createElement('div');
+                categoryText.textContent = `${item["Категория"]}`;
+                categoryText.style.fontSize = '24px';  // Set the font size larger
+                categoryText.style.fontWeight = 'bold';  // Optionally make it bold
+                div.appendChild(categoryText);
+
+                // Create a text element for the formatted sum
+                const sumText = document.createElement('div');
+                sumText.textContent = `${formattedSum} грн.`;
+                div.appendChild(sumText);
+
+                // Create a text element for the quantity
+                const quantityText = document.createElement('div');
+                quantityText.textContent = `(${item["SUM of Количество"]} од.)`;
+                div.appendChild(quantityText);
+
+                // Append the fully assembled div to the container
+                container.appendChild(div);
+            }
+        });
+    }
+
+    // This function should be called when the csvDonators data is loaded
+    function updateTotalFunds(data) {
+        let totalSum = 0;
+        data.forEach(item => {
+            if (item["SUM of Сумма"]) {
+                totalSum += parseInt(item["SUM of Сумма"], 10); // Ensure that the values are integers
+            }
+        });
+
+        // Format the total sum for display
+        const formattedTotal = totalSum.toLocaleString('en-US', {
+            maximumFractionDigits: 0  // Ensure no decimal places
+        });
+
+        // Update the HTML element
+        const totalFundsElement = document.getElementById('totalFunds');
+        totalFundsElement.textContent = `Зібрано коштів: ${formattedTotal} грн.`;
+    }
+
+    function initializeDonatorsChart(data) {
+        data.sort((a, b) => parseInt(b["SUM of Сумма"], 10) - parseInt(a["SUM of Сумма"], 10));
+        // Use the correct CSV URL
+        const ctx = document.getElementById('donatorsChart').getContext('2d');
+
+        window.donatorsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(item => item["Кто"]),
+                datasets: [{
+                    label: 'Data',
+                    data: data.map(item => parseInt(item["SUM of Сумма"], 10)),
+                    images: data.map(item => "/donators/" + item.PNG),
+                    backgroundColor: 'rgb(1,32,107)',
+                    borderColor: 'rgb(1,32,107)',
+                    borderWidth: 1,
+                    borderRadius: 20
+                }]
+            },
+            options: {
+                events: [], // Disable all interaction events
+                responsive: true, // Make sure the chart is responsive
+                layout: {
+                    padding: {
+                        top: 80,
+                        bottom: 120
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        ticks: {
+                            color: '#fff', // Красный цвет для подписей на оси X
+                            font: {
+                                family: 'eUkraine',
+                                size: 14 // Размер шрифта для подписей на оси X
+                            }
+                        },
+                        scaleLabel: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        display: false
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // This hides the default legend
+                    },
+                    tooltip: {
+                        enabled: false  // Disable tooltips
+                    },
+                    datalabels: {
+                        align: 'end',
+                        anchor: 'end',
+                        color: '#fff',
+                        font: {
+                            family: 'eUkraine',
+                            size: 14
+                        },
+                        formatter: (value, context) => {
+                            return parseInt(value).toLocaleString('fr-FR', {
+                                maximumFractionDigits: 0  // Ensure no decimal places
+                            });
+                        }
+                    }
+                },
+                animation: {
+                    duration: 0,
+                    onComplete: function (animation) {
+                        if (donatorsDrawn) return;
+                        donatorsDrawn = true;
+                        const chart = animation.chart;
+                        const datasets = chart.data.datasets;
+
+                        datasets.forEach((dataset, i) => {
+                            const meta = chart.getDatasetMeta(i);
+                            meta.data.forEach((element, index) => {
+                                const model = element.getProps(['x', 'y', 'width', 'height'], true);
+                                const ctx = chart.ctx;
+
+                                const imageSrc = dataset.images[index];
+                                if (imageSrc) {
+                                    const image = new Image();
+                                    image.onload = () => {
+                                        const imgWidth = Math.min(image.width, model.width);
+                                        const imgHeight = imgWidth / image.width * image.height;
+                                        const imgX = model.x - imgWidth / 2;
+                                        const imgY = model.y - (1.5 * imgHeight);
+
+                                        ctx.drawImage(image, imgX, imgY, imgWidth, imgHeight);
+                                    };
+                                    image.src = imageSrc;
+                                }
+                            });
+                        });
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+
+        });
+    }
+
+    function initializeReceiversChart(data) {
+        // Use the correct CSV URL
+        const ctx = document.getElementById('receiversChart').getContext('2d');
+
+        window.receiversChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: data.map(item => item["Куда"]),
+                datasets: [{
+                    label: 'Data',
+                    data: data.map(item => parseInt(item["SUM of Сумма"], 10)),
+                    images: data.map(item => "/military/" + item.PNG),
+                    backgroundColor: 'rgb(1,32,107)',
+                    borderColor: 'rgb(1,32,107)',
+                    borderWidth: 1,
+                    borderRadius: 20
+                }]
+            },
+            options: {
+                events: [], // Disable all interaction events
+                responsive: true, // Make sure the chart is responsive
+                layout: {
+                    padding: {
+                        top: 80,
+                        bottom: 120
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        ticks: {
+                            color: '#fff', // Красный цвет для подписей на оси X
+                            font: {
+                                family: 'eUkraine',
+                                size: 14 // Размер шрифта для подписей на оси X
+                            }
+                        },
+                        scaleLabel: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        display: false
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // This hides the default legend
+                    },
+                    tooltip: {
+                        enabled: false  // Disable tooltips
+                    },
+                    datalabels: {
+                        align: 'end',
+                        anchor: 'end',
+                        color: '#fff',
+                        font: {
+                            family: 'eUkraine',
+                            size: 14
+                        },
+                        formatter: (value, context) => {
+                            return parseInt(value).toLocaleString('fr-FR', {
+                                maximumFractionDigits: 0  // Ensure no decimal places
+                            });
+                        }
+                    }
+                },
+                animation: {
+                    duration: 0,
+                    onComplete: function (animation) {
+                        if (receiversDrawn) return;
+                        receiversDrawn = true;
+                        const chart = animation.chart;
+                        const datasets = chart.data.datasets;
+
+                        datasets.forEach((dataset, i) => {
+                            const meta = chart.getDatasetMeta(i);
+                            meta.data.forEach((element, index) => {
+                                const model = element.getProps(['x', 'y', 'width', 'height'], true);
+                                const ctx = chart.ctx;
+
+                                const imageSrc = dataset.images[index];
+                                if (imageSrc) {
+                                    const image = new Image();
+                                    image.onload = () => {
+                                        const imgWidth = Math.min(image.width, model.width);
+                                        const imgHeight = imgWidth / image.width * image.height;
+                                        const imgX = model.x - imgWidth / 2;
+                                        const imgY = model.y - (1.5 * imgHeight);
+
+                                        ctx.drawImage(image, imgX, imgY, imgWidth, imgHeight);
+                                    };
+                                    image.src = imageSrc;
+                                }
+                            });
+                        });
+                    }
+                }
+            },
+            plugins: [ChartDataLabels]
+
+        });
+    }
+</script>
+</body>
+</html>
