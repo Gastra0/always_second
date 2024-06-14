@@ -128,44 +128,31 @@
             align-items: center; /* Align children (text and image) centrally */
         }
         .gallery-container {
-            overflow-x: auto;
-            width: 80%;
+            width: 100%;
             max-width: 1200px;
+            margin: auto;
         }
 
         .gallery {
-            display: flex;
-            flex-wrap: nowrap;
+            display: grid;
+            gap: 10px;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         }
 
         .gallery img {
-            max-width: 100%;
-            height: auto;
-            margin: 5px;
-            flex: 1 0 21%; /* This ensures around 4 images per row */
-        }
-        .gallery.mosaic {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-            gap: 10px;
-        }
-
-        .gallery.mosaic img {
             width: 100%;
             height: auto;
-            object-fit: cover;
-            border-radius: 10px; /* Optional: add border radius to images */
+            border-radius: 10px;
+            transition: transform 0.3s ease;
         }
 
-        @media (max-width: 1200px) {
-            .gallery img {
-                flex: 1 0 46%; /* Adjust the width of images for smaller screens */
-            }
+        .gallery img:hover {
+            transform: scale(1.05);
         }
 
         @media (max-width: 768px) {
-            .gallery img {
-                flex: 1 0 96%; /* Adjust the width of images for mobile screens */
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
             }
         }
     </style>
@@ -195,7 +182,7 @@
     </div>
     <div class="section" id="section4">
         <h2>Фотозвіти</h2>
-            <div id="lightgallery" class="gallery mosaic"></div>
+        <div id="gallery" class="gallery"></div>
     </div>
     <div class="section" id="section5">
         <h2>Отримано військовими (грн)</h2>
@@ -220,35 +207,33 @@
 <script>
     // script.js
     document.addEventListener('DOMContentLoaded', function() {
-        const gallery = document.getElementById('lightgallery');
-        const imagesPerLoad = 4; // Number of images to load at a time
-        let imagesLoaded = 0;
+        const gallery = document.getElementById('gallery');
 
         // Fetch image filenames from the JSON file
         fetch('/gallery/images.json')
-            .then(response => response.json())
-            .then(imageFilenames => {
-                function loadImages() {
-                    const imagesToLoad = imageFilenames.slice(imagesLoaded, imagesLoaded + imagesPerLoad);
-                    imagesToLoad.forEach(filename => {
-                        const img = document.createElement('img');
-                        img.src = `gallery/${filename}`;
-                        img.alt = filename;
-                        img.loading = 'lazy';
-                        gallery.appendChild(img);
-                    });
-                    imagesLoaded += imagesPerLoad;
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
                 }
-
-                loadImages(); // Initial load
-
-                gallery.addEventListener('scroll', () => {
-                    if (gallery.scrollLeft + gallery.clientWidth >= gallery.scrollWidth - 5 && imagesLoaded < imageFilenames.length) {
-                        loadImages();
-                    }
-                });
+                return response.json();
             })
-            .catch(error => console.error('Error loading image filenames:', error));
+            .then(imageFilenames => {
+                if (!Array.isArray(imageFilenames)) {
+                    throw new Error('JSON data is not an array');
+                }
+                imageFilenames.forEach(filename => {
+                    const img = document.createElement('img');
+                    img.src = `gallery/${filename}`;
+                    img.alt = filename;
+                    img.loading = 'lazy';
+                    gallery.appendChild(img);
+                });
+                document.getElementById('loadingOverlay').style.display = 'none';
+            })
+            .catch(error => {
+                console.error('Error loading image filenames:', error);
+                document.getElementById('loadingOverlay').innerHTML = 'Failed to load gallery!';
+            });
     });
 
     const csvUrlGrid = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdJn_gZe3zyt7S6LKUYQj6lOgZ6RLPTNB7gLs_k-j_GPN9o3SWvDrqTN4lA-AFsvdNkzq5Rhze1Px9/pub?output=csv&gid=1569713555";
