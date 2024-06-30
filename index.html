@@ -210,7 +210,7 @@
         const gallery = document.getElementById('gallery');
 
         // Fetch image filenames from the JSON file
-        fetch('/gallery/images.json')
+        fetch('gallery/images.json')
             .then(response => {
                 if (!response.ok) {
                     throw new Error('Network response was not ok');
@@ -457,7 +457,7 @@
                 datasets: [{
                     label: 'Data',
                     data: data.map(item => parseInt(item["SUM of Сумма"], 10)),
-                    images: data.map(item => "/military/" + item.PNG),
+                    images: data.map(item => "military/" + item.PNG),
                     backgroundColor: 'rgb(1,32,107)',
                     borderColor: 'rgb(1,32,107)',
                     borderWidth: 1,
