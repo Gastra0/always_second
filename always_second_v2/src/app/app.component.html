@@ -1,5 +1,16 @@
-<p-dock [model]="dockItems" position="right">
-  <ng-template pTemplate="item" let-item>
-    <p>{{item.label}}</p>
-  </ng-template>
-</p-dock>
+<div class="main-bg">
+
+  <section class="intro">
+    <h1>Волонтерська спілка</h1>
+    <h1>"Завжди другі"</h1>
+    <h1 id="totalFunds" style="font-weight: lighter">Зібрано коштів: 0 грн.</h1>
+  </section>
+
+  <p-dock [model]="dockItems" position="right">
+    <ng-template pTemplate="item" let-item>
+      <p>{{ item.label }}</p>
+    </ng-template>
+  </p-dock>
+
+</div>
+

@@ -1,3 +1,13 @@
 p-dock {
-  p {color: white}
+  p {
+    color: white
+  }
+}
+
+.intro {
+  display: flex;
+  position: relative;
+  width: 100%;
+  flex-flow: column;
+  height: 100%;
 }
