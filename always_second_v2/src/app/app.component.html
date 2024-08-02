@@ -6,6 +6,9 @@
     <h1 id="totalFunds" style="font-weight: lighter">{{ t('header.funds-raised') }}: 0 грн.</h1>
   </section>
 
+  change to en <button style="width: 20px; height: 20px; color: red" (click)="changeLocale('en')" ></button>
+  change to Uk <button style="width: 20px; height: 20px; color: red" (click)="changeLocale('uk')" ></button>
+
   <p-dock [model]="dockItems" position="right">
     <ng-template pTemplate="item" let-item>
       <p>{{ item.label }}</p>
