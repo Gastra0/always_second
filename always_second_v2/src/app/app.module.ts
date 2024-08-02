@@ -6,6 +6,9 @@ import {GalleriaModule} from "primeng/galleria";
 import {DockModule} from "primeng/dock";
 import {HttpClientModule} from "@angular/common/http";
 import {TranslocoRootModule} from "../components/transloco/transloco.module";
+import {ToastModule} from "primeng/toast";
+import {MenuModule} from "primeng/menu";
+import {Button} from "primeng/button";
 
 @NgModule({
   declarations: [
@@ -18,6 +21,9 @@ import {TranslocoRootModule} from "../components/transloco/transloco.module";
     GalleriaModule,
     DockModule,
     TranslocoRootModule,
+    ToastModule,
+    MenuModule,
+    Button,
   ],
   providers: [],
   bootstrap: [AppComponent]

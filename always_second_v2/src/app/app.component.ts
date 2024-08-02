@@ -1,17 +1,31 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {TranslocoService} from "@jsverse/transloco";
+import {MenuItem} from "primeng/api";
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   title = 'always_second_v2';
-  dockItems = [{label: "Intro"}, {label: "Given"}, {label: "Donaters"}, {label: "Report"}, {label: "Receivers"}];
+  dockItems: MenuItem[] = [{label: "Intro"}, {label: "Given"}, {label: "Donaters"}, {label: "Report"}, {label: "Receivers"}];
   csvUrlReceivers = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdJn_gZe3zyt7S6LKUYQj6lOgZ6RLPTNB7gLs_k-j_GPN9o3SWvDrqTN4lA-AFsvdNkzq5Rhze1Px9/pub?output=csv&range=H3";
+  localeItems: MenuItem[] = [{
+    label: "EN", icon: "", command: () => {
+      this.changeLocale("en")
+    }
+  }, {
+    label: "UK", icon: "", command: () => {
+      this.changeLocale("uk")
+    }
+  }];
+
+  activeLang = "en";
+
   constructor(private httpClient: HttpClient, private translocoService: TranslocoService) {
   }
 
@@ -23,7 +37,8 @@ export class AppComponent implements OnInit{
     })
   }
 
-  changeLocale(locale: string){
+  changeLocale(locale: string) {
+    this.activeLang = locale;
     this.translocoService.setActiveLang(locale);
   }
 

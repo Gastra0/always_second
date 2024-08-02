@@ -2,12 +2,12 @@
   provideTransloco,
   TranslocoModule
 } from '@jsverse/transloco';
-import { isDevMode, NgModule } from '@angular/core';
+import {isDevMode, NgModule} from '@angular/core';
 import {TranslocoHttpLoader} from "./transloco-loader.module";
 
 
 @NgModule({
-  exports: [ TranslocoModule ],
+  exports: [TranslocoModule],
   providers: [
     provideTransloco({
       config: {
@@ -20,4 +20,5 @@ import {TranslocoHttpLoader} from "./transloco-loader.module";
     }),
   ],
 })
-export class TranslocoRootModule {}
+export class TranslocoRootModule {
+}

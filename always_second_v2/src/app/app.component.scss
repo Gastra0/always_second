@@ -11,3 +11,36 @@ p-dock {
   flex-flow: column;
   height: 100%;
 }
+
+.lang-toggle {
+  .p-button {
+    background-color: white;
+    padding: 12px;
+    border-radius: 6px;
+    text-transform: uppercase;
+    font-family: eUkraine, sans-serif;
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.p-menu-list {
+  background-color: white;
+  border-radius: 6px;
+  .p-menuitem-content {
+    padding: 6px 18px 6px 12px;
+    font-family: eUkraine, sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    cursor: pointer;
+    border-radius: 6px;
+    &:hover {
+      background-color: #f4f0f0;
+    }
+  }
+}
+
