@@ -1,9 +1,9 @@
-<div class="main-bg">
+<div class="main-bg" *transloco="let t">
 
   <section class="intro">
-    <h1>Волонтерська спілка</h1>
-    <h1>"Завжди другі"</h1>
-    <h1 id="totalFunds" style="font-weight: lighter">Зібрано коштів: 0 грн.</h1>
+    <h1>{{ t('header.title') }}</h1>
+    <h1>{{ t('header.name') }}</h1>
+    <h1 id="totalFunds" style="font-weight: lighter">{{ t('header.funds-raised') }}: 0 грн.</h1>
   </section>
 
   <p-dock [model]="dockItems" position="right">

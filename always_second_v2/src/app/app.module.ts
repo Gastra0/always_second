@@ -5,6 +5,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {GalleriaModule} from "primeng/galleria";
 import {DockModule} from "primeng/dock";
 import {HttpClientModule} from "@angular/common/http";
+import {TranslocoRootModule} from "../components/transloco/transloco.module";
 
 @NgModule({
   declarations: [
@@ -16,6 +17,7 @@ import {HttpClientModule} from "@angular/common/http";
     HttpClientModule,
     GalleriaModule,
     DockModule,
+    TranslocoRootModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
