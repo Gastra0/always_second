@@ -96,6 +96,8 @@
         .stats, .grid {
             display: flex;
             justify-content: center;
+            padding: 50px;
+            padding-top: 0px;
             flex-wrap: wrap;
         }
         .stat-item, .grid-item button {
@@ -118,7 +120,7 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.15);
         }
         .stat-item {
-            width: 200px; /* Fixed width for each item */
+            width: 180px; /* Fixed width for each item */
             margin: 10px;
             padding: 20px;
             text-align: center; /* Center align the text */
@@ -207,35 +209,35 @@
 <script>
     const host = "https://gastra0.github.io/always_second/";
     // script.js
-    document.addEventListener('DOMContentLoaded', function() {
-        const gallery = document.getElementById('gallery');
-
-        // Fetch image filenames from the JSON file
-        fetch('gallery/images.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
-            .then(imageFilenames => {
-                if (!Array.isArray(imageFilenames)) {
-                    throw new Error('JSON data is not an array');
-                }
-                imageFilenames.forEach(filename => {
-                    const img = document.createElement('img');
-                    img.src = `gallery/${filename}`;
-                    img.alt = filename;
-                    img.loading = 'lazy';
-                    gallery.appendChild(img);
-                });
-                document.getElementById('loadingOverlay').style.display = 'none';
-            })
-            .catch(error => {
-                console.error('Error loading image filenames:', error);
-                document.getElementById('loadingOverlay').innerHTML = 'Failed to load gallery!';
-            });
-    });
+    // document.addEventListener('DOMContentLoaded', function() {
+    //     const gallery = document.getElementById('gallery');
+    //
+    //     // Fetch image filenames from the JSON file
+    //     fetch('gallery/images.json')
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(imageFilenames => {
+    //             if (!Array.isArray(imageFilenames)) {
+    //                 throw new Error('JSON data is not an array');
+    //             }
+    //             imageFilenames.forEach(filename => {
+    //                 const img = document.createElement('img');
+    //                 img.src = `gallery/${filename}`;
+    //                 img.alt = filename;
+    //                 img.loading = 'lazy';
+    //                 gallery.appendChild(img);
+    //             });
+    //             document.getElementById('loadingOverlay').style.display = 'none';
+    //         })
+    //         .catch(error => {
+    //             console.error('Error loading image filenames:', error);
+    //             document.getElementById('loadingOverlay').innerHTML = 'Failed to load gallery!';
+    //         });
+    // });
 
     const csvUrlGrid = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdJn_gZe3zyt7S6LKUYQj6lOgZ6RLPTNB7gLs_k-j_GPN9o3SWvDrqTN4lA-AFsvdNkzq5Rhze1Px9/pub?output=csv&gid=1569713555";
     const csvUrlDonators = "https://docs.google.com/spreadsheets/d/e/2PACX-1vTdJn_gZe3zyt7S6LKUYQj6lOgZ6RLPTNB7gLs_k-j_GPN9o3SWvDrqTN4lA-AFsvdNkzq5Rhze1Px9/pub?output=csv&gid=1952789179";
