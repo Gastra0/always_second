@@ -413,7 +413,7 @@
         window.donatorsChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: data.map(item => item["Кто"].replace(/ /g, '\n')),
+                labels: data.map(item => item["Кто"].split(' ')[0]),
                 datasets: [{
                     label: 'Data',
                     data: data.map(item => parseInt(item["SUM von Сумма"], 10)),
