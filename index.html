@@ -114,15 +114,14 @@
         #donatorsContainer {
             display: flex;            /* Enables flexbox on the container */
             justify-content: center; /* Distributes the child elements evenly with space around them */
-            align-items: center;      /* Centers child elements vertically within #donatorsContainer */
             width: 70%;               /* Set width to 70% of its parent */
-            height: 70%;
+            height: 80%;
             margin: 0 auto;
         }
         #receiversChart {
             width: 100%; /* Adjust as necessary */
             height: 100%; /* Adjust as necessary */
-            max-height: calc(100vh - 10px); /* Ensure chart fits within viewport */
+            max-height: calc(100vh - 30px); /* Ensure chart fits within viewport */
         }
         .section-content {
             overflow: auto; /* Allow scrolling if content overflows */
@@ -135,7 +134,6 @@
         .stats, .grid {
             display: flex;
             justify-content: center;
-            padding: 50px;
             flex-wrap: wrap;
         }
         .stat-item, .grid-item button {
@@ -191,7 +189,6 @@
             width: 40%; /* Image will take 40% of the stat-item's width */
             height: auto; /* Keep the image proportional */
             border-radius: 50%;
-            margin-bottom: 10px;
         }
 
         @media (max-width: 768px) {
@@ -346,7 +343,7 @@
         const container = document.getElementById('donatorsContainer');
         container.innerHTML = ''; // Clear existing content
         data.forEach(function(item) {
-            if (item["SUM of Сумма"] && item["Категория"]) {
+            if (item["SUM von Сумма"] && item["Категория"]) {
                 const div = document.createElement('div');
                 div.className = 'stat-item';
                 // Assume there is an 'Image' field in your data that contains the image URLs
@@ -360,25 +357,27 @@
                 div.appendChild(img);
 
                 // Format the sum using toLocaleString for readability
-                const formattedSum = parseInt(item["SUM of Сумма"]).toLocaleString('fr-FR', {
+                const formattedSum = parseInt(item["SUM von Сумма"]).toLocaleString('fr-FR', {
                     maximumFractionDigits: 0  // Ensure no decimal places
                 });
 
                 // Create a text element for the category
                 const categoryText = document.createElement('div');
                 categoryText.textContent = `${item["Категория"]}`;
-                categoryText.style.fontSize = '24px';  // Set the font size larger
+                categoryText.style.fontSize = '1vw';  // Set the font size larger
                 categoryText.style.fontWeight = 'bold';  // Optionally make it bold
                 div.appendChild(categoryText);
 
                 // Create a text element for the formatted sum
                 const sumText = document.createElement('div');
                 sumText.textContent = `${formattedSum} грн.`;
+                sumText.style.fontSize = '0.7vw';  // Set the font size larger
                 div.appendChild(sumText);
 
                 // Create a text element for the quantity
                 const quantityText = document.createElement('div');
-                quantityText.textContent = `(${item["SUM of Количество"]} од.)`;
+                quantityText.textContent = `(${item["SUM von Количество"]} од.)`;
+                quantityText.style.fontSize = '0.7vw';  // Set the font size larger
                 div.appendChild(quantityText);
 
                 // Append the fully assembled div to the container
@@ -391,8 +390,8 @@
     function updateTotalFunds(data) {
         let totalSum = 0;
         data.forEach(item => {
-            if (item["SUM of Сумма"]) {
-                totalSum += parseInt(item["SUM of Сумма"], 10); // Ensure that the values are integers
+            if (item["SUM von Сумма"]) {
+                totalSum += parseInt(item["SUM von Сумма"], 10); // Ensure that the values are integers
             }
         });
 
@@ -407,7 +406,7 @@
     }
 
     function initializeDonatorsChart(data) {
-        data.sort((a, b) => parseInt(b["SUM of Сумма"], 10) - parseInt(a["SUM of Сумма"], 10));
+        data.sort((a, b) => parseInt(b["SUM von Сумма"], 10) - parseInt(a["SUM von Сумма"], 10));
         // Use the correct CSV URL
         const ctx = document.getElementById('donatorsChart').getContext('2d');
 
@@ -417,7 +416,7 @@
                 labels: data.map(item => item["Кто"].replace(/ /g, '\n')),
                 datasets: [{
                     label: 'Data',
-                    data: data.map(item => parseInt(item["SUM of Сумма"], 10)),
+                    data: data.map(item => parseInt(item["SUM von Сумма"], 10)),
                     images: data.map(item => "donators/" + item.PNG),
                     backgroundColor: 'rgb(53,102,225)',
                     borderColor: 'rgb(53,102,225)',
@@ -521,7 +520,7 @@
                 labels: data.map(item => item["Куда"]),
                 datasets: [{
                     label: 'Data',
-                    data: data.map(item => parseInt(item["SUM of Сумма"], 10)),
+                    data: data.map(item => parseInt(item["SUM von Сумма"], 10)),
                     images: data.map(item => "military/" + item.PNG),
                     backgroundColor: 'rgb(53,102,225)',
                     borderColor: 'rgb(53,102,225)',
@@ -534,8 +533,8 @@
                 responsive: true, // Make sure the chart is responsive
                 layout: {
                     padding: {
-                        top: 60,
-                        bottom: 30
+                        top: 90,
+                        bottom: 40
                     }
                 },
                 scales: {
