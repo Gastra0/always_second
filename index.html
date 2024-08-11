@@ -24,9 +24,6 @@
         }
 
         #donatorsChart, #receiversChart {
-            width: 100%;
-            height: 400px; // Fixed height or use 'auto' for responsive height
-        display: block;
         }
 
         #fp-nav ul li a span{
@@ -77,17 +74,42 @@
             text-align: center;
             font-size: 48px;
             text-shadow: 2px 2px black;
+            margin: 0;
         }
         .section {
-            overflow: visible;
             width: 100%;
+            overflow: hidden; /* Prevent content overflow from affecting section height */
             height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
             color: #fff;
-            position: relative;  /* Ensures the section does not overflow */
-            overflow: hidden;    /* Prevents any content from going outside the bounds of the section */
+            position: relative;
+            /* Ensures the section does not overflow */
+        }
+
+        #section3 {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 0; /* Remove padding to prevent overflow */
+        }
+
+        #donatorsChart {
+            width: 100%; /* Adjust as necessary */
+            height: 100%; /* Adjust as necessary */
+            max-height: calc(100vh - 10px); /* Ensure chart fits within viewport */
+        }
+        #receiversChart {
+            width: 100%; /* Adjust as necessary */
+            height: 100%; /* Adjust as necessary */
+            max-height: calc(100vh - 10px); /* Ensure chart fits within viewport */
+        }
+        .section-content {
+            overflow: auto; /* Allow scrolling if content overflows */
+            max-height: 100%; /* Prevent it from exceeding the section height */
         }
         .section:not(:first-of-type) {
             background-color: rgba(0, 0, 0, 0.8);
@@ -180,7 +202,7 @@
     </div>
     <div class="section" id="section3">
         <h2>Передано донаторами (грн)</h2>
-        <canvas id="donatorsChart"></canvas>
+        <canvas id="donatorsChart" style="width: 100%; height: 100%;"></canvas>
     </div>
 <!--    <div class="section" id="section4">-->
 <!--        <h2>Фотозвіти</h2>-->
@@ -265,10 +287,13 @@
         // Initialize FullPage.js only after the data is ready
         new fullpage('#fullpage', {
             autoScrolling: true,
+            fitToSection: true,
+            paddingTop: '0px',
+            paddingBottom: '0px',
             navigation: true,
             showActiveTooltip: true,
             navigationPosition: 'right',
-            navigationTooltips: ['Інтро', 'Передано', 'Грошодавці', "Звіти", "Отримувачі"]
+            navigationTooltips: ['Інтро', 'Передано', 'Грошодавці', "Отримувачі"]
         });
 
         initializeDonatorsChart(csvDonatorsData);
@@ -352,13 +377,13 @@
         window.donatorsChart = new Chart(ctx, {
             type: 'bar',
             data: {
-                labels: data.map(item => item["Кто"]),
+                labels: data.map(item => item["Кто"].replace(/ /g, '\n')),
                 datasets: [{
                     label: 'Data',
                     data: data.map(item => parseInt(item["SUM of Сумма"], 10)),
                     images: data.map(item => "donators/" + item.PNG),
-                    backgroundColor: 'rgb(1,32,107)',
-                    borderColor: 'rgb(1,32,107)',
+                    backgroundColor: 'rgb(53,102,225)',
+                    borderColor: 'rgb(53,102,225)',
                     borderWidth: 1,
                     borderRadius: 20
                 }]
@@ -368,8 +393,8 @@
                 responsive: true, // Make sure the chart is responsive
                 layout: {
                     padding: {
-                        top: 80,
-                        bottom: 120
+                        top: 30,
+                        bottom: 50
                     }
                 },
                 scales: {
@@ -461,8 +486,8 @@
                     label: 'Data',
                     data: data.map(item => parseInt(item["SUM of Сумма"], 10)),
                     images: data.map(item => "military/" + item.PNG),
-                    backgroundColor: 'rgb(1,32,107)',
-                    borderColor: 'rgb(1,32,107)',
+                    backgroundColor: 'rgb(53,102,225)',
+                    borderColor: 'rgb(53,102,225)',
                     borderWidth: 1,
                     borderRadius: 20
                 }]
@@ -472,8 +497,8 @@
                 responsive: true, // Make sure the chart is responsive
                 layout: {
                     padding: {
-                        top: 80,
-                        bottom: 120
+                        top: 60,
+                        bottom: 30
                     }
                 },
                 scales: {
