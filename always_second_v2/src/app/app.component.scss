@@ -22,6 +22,7 @@ p-dock {
     position: fixed;
     right: 20px;
     top: 20px;
+
     &:hover {
       cursor: pointer;
     }
@@ -31,6 +32,7 @@ p-dock {
 .p-menu-list {
   background-color: white;
   border-radius: 6px;
+
   .p-menuitem-content {
     padding: 6px 18px 6px 12px;
     font-family: eUkraine, sans-serif;
@@ -38,9 +40,36 @@ p-dock {
     font-weight: 400;
     cursor: pointer;
     border-radius: 6px;
+
     &:hover {
       background-color: #f4f0f0;
     }
   }
 }
 
+.position-relative {
+  position: relative;
+}
+
+.page-content {
+  position: absolute;
+  left: 20%;
+  opacity: 0;
+  transform: translateY(100px);
+  transition: all 0.5s 0.5s;
+}
+
+.page-content.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.parent-container {
+  height: 96.5vh;
+}
+
+.nav {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+}
